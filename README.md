@@ -19,7 +19,7 @@ Use the published raw script directly:
 ```bash
 CODEX_TOKEN="your_api_key" \
 CODEX_API_URL="https://cc.codesome.ai" \
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/zenenznze/codesome-codex-installer/main/install-codex.sh)"
+bash -c "$(curl -fsSL https://gitee.com/bashi01/codesome-codex-installer/raw/main/install-codex.sh)"
 ```
 
 ### Windows PowerShell
@@ -27,7 +27,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/zenenznze/codesome-codex
 ```powershell
 $env:CODEX_TOKEN="your_api_key"
 $env:CODEX_API_URL="https://cc.codesome.ai"
-irm https://raw.githubusercontent.com/zenenznze/codesome-codex-installer/main/install-codex.ps1 | iex
+irm https://gitee.com/bashi01/codesome-codex-installer/raw/main/install-codex.ps1 | iex
 ```
 
 ## Defaults
