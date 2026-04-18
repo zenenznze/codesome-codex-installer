@@ -61,10 +61,35 @@ function Ensure-NodeAndNpm {
     Write-Success "npm detected: $(npm --version)"
 }
 
+function Ensure-NpmGlobalBinOnPath {
+    $prefix = (npm prefix -g).Trim()
+    if ([string]::IsNullOrWhiteSpace($prefix)) {
+        throw "Unable to determine npm global prefix"
+    }
+
+    $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+    $pathEntries = @()
+    if (-not [string]::IsNullOrWhiteSpace($userPath)) {
+        $pathEntries = $userPath -split ';'
+    }
+
+    if ($pathEntries -contains $prefix) {
+        $env:Path = "$prefix;$env:Path"
+        Write-Info "npm global bin already present in user PATH: $prefix"
+        return
+    }
+
+    $newUserPath = if ([string]::IsNullOrWhiteSpace($userPath)) { $prefix } else { "$userPath;$prefix" }
+    [Environment]::SetEnvironmentVariable("Path", $newUserPath, "User")
+    $env:Path = "$prefix;$env:Path"
+    Write-Success "Added npm global bin to user PATH: $prefix"
+}
+
 function Install-Codex {
     Write-Step "1/4 Installing @openai/codex..."
     Ensure-NodeAndNpm
     npm install -g @openai/codex
+    Ensure-NpmGlobalBinOnPath
     Write-Success "Codex CLI installed"
 }
 

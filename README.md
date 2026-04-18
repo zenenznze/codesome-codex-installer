@@ -43,3 +43,4 @@ irm https://raw.githubusercontent.com/zenenznze/codesome-codex-installer/main/in
 - On macOS / Linux, it writes the key into `~/.bashrc` or `~/.zshrc`
 - Existing Codex config and shell config are backed up before replacement where applicable
 - On Windows, the installer stores `CODESOME_API_KEY` in the user environment and writes `%USERPROFILE%\.codex\config.toml`
+- On Windows, the installer also ensures the npm global bin directory is added to the user `Path`
