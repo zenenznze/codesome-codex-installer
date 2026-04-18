@@ -14,10 +14,20 @@ One-click installer for Codex CLI configured to use Codesome, using the same pri
 
 Use the published raw script directly:
 
+### macOS / Linux
+
 ```bash
 CODEX_TOKEN="your_api_key" \
 CODEX_API_URL="https://cc.codesome.ai" \
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/zenenznze/codesome-codex-installer/main/install-codex.sh)"
+```
+
+### Windows PowerShell
+
+```powershell
+$env:CODEX_TOKEN="your_api_key"
+$env:CODEX_API_URL="https://cc.codesome.ai"
+irm https://raw.githubusercontent.com/zenenznze/codesome-codex-installer/main/install-codex.ps1 | iex
 ```
 
 ## Defaults
@@ -30,5 +40,6 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/zenenznze/codesome-codex
 ## Notes
 
 - The installer accepts `CODEX_TOKEN` and persists it as `CODESOME_API_KEY`
-- It writes the key into `~/.bashrc` or `~/.zshrc`
-- Existing Codex config and shell config are backed up before replacement
+- On macOS / Linux, it writes the key into `~/.bashrc` or `~/.zshrc`
+- Existing Codex config and shell config are backed up before replacement where applicable
+- On Windows, the installer stores `CODESOME_API_KEY` in the user environment and writes `%USERPROFILE%\.codex\config.toml`
