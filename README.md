@@ -12,11 +12,12 @@ One-click installer for Codex CLI configured to use Codesome, using the same pri
 
 ## Install
 
-Replace `RAW_URL` with the raw GitHub URL of `install-codex.sh`.
+Use the published raw script directly:
 
 ```bash
 CODEX_TOKEN="your_api_key" \
-bash -c "$(curl -fsSL RAW_URL)"
+CODEX_API_URL="https://cc.codesome.ai" \
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/zenenznze/codesome-codex-installer/main/install-codex.sh)"
 ```
 
 ## Defaults
