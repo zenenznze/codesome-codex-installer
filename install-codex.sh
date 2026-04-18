@@ -9,7 +9,7 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-TOKEN="${CODEX_TOKEN:-${OPENAI_API_KEY:-}}"
+TOKEN="${CODEX_TOKEN:-${CODESOME_API_KEY:-${OPENAI_API_KEY:-}}}"
 BASE_URL="${CODEX_API_URL:-https://cc.codesome.ai}"
 MODEL="${CODEX_MODEL:-gpt-5.4}"
 REVIEW_MODEL="${CODEX_REVIEW_MODEL:-gpt-5.4}"
@@ -59,7 +59,8 @@ Usage:
 
 Environment variables:
   CODEX_TOKEN            Required. Codesome API key.
-  OPENAI_API_KEY         Alias for CODEX_TOKEN.
+  CODESOME_API_KEY       Alias for CODEX_TOKEN.
+  OPENAI_API_KEY         Fallback alias for CODEX_TOKEN.
   CODEX_API_URL          Optional. Default: https://cc.codesome.ai
   CODEX_MODEL            Optional. Default: gpt-5.4
   CODEX_REVIEW_MODEL     Optional. Default: gpt-5.4
@@ -144,7 +145,7 @@ model_auto_compact_token_limit = 900000
 name = "codesome"
 base_url = "$BASE_URL"
 wire_api = "responses"
-env_key = "OPENAI_API_KEY"
+env_key = "CODESOME_API_KEY"
 EOF
     print_success "Config written to $CONFIG_FILE"
 }
@@ -152,23 +153,24 @@ EOF
 persist_api_key() {
     print_step "3/4" "Persisting API key to shell config..."
     detect_shell_config
-    export OPENAI_API_KEY="$TOKEN"
+    backup_file "$SHELL_CONFIG"
+    export CODESOME_API_KEY="$TOKEN"
 
     touch "$SHELL_CONFIG"
-    if grep -q 'export OPENAI_API_KEY=' "$SHELL_CONFIG" 2>/dev/null; then
+    if grep -q 'export CODESOME_API_KEY=' "$SHELL_CONFIG" 2>/dev/null; then
         if [[ "$OSTYPE" == "darwin"* ]]; then
-            sed -i '' "s|export OPENAI_API_KEY=.*|export OPENAI_API_KEY=\"$TOKEN\"|" "$SHELL_CONFIG"
+            sed -i '' "s|export CODESOME_API_KEY=.*|export CODESOME_API_KEY=\"$TOKEN\"|" "$SHELL_CONFIG"
         else
-            sed -i "s|export OPENAI_API_KEY=.*|export OPENAI_API_KEY=\"$TOKEN\"|" "$SHELL_CONFIG"
+            sed -i "s|export CODESOME_API_KEY=.*|export CODESOME_API_KEY=\"$TOKEN\"|" "$SHELL_CONFIG"
         fi
-        print_info "Updated OPENAI_API_KEY in $SHELL_CONFIG"
+        print_info "Updated CODESOME_API_KEY in $SHELL_CONFIG"
     else
         {
             echo
             echo "# Codesome Codex API key"
-            echo "export OPENAI_API_KEY=\"$TOKEN\""
+            echo "export CODESOME_API_KEY=\"$TOKEN\""
         } >> "$SHELL_CONFIG"
-        print_success "Added OPENAI_API_KEY to $SHELL_CONFIG"
+        print_success "Added CODESOME_API_KEY to $SHELL_CONFIG"
     fi
 }
 
@@ -192,7 +194,7 @@ show_summary() {
     echo "Config: $CONFIG_FILE"
     echo "Base:   $BASE_URL"
     echo "Model:  $MODEL"
-    echo "Env:    OPENAI_API_KEY"
+    echo "Env:    CODESOME_API_KEY"
     echo
     echo "Next:"
     echo "  1. Open a new terminal or run: source $SHELL_CONFIG"

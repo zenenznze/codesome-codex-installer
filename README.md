@@ -7,7 +7,7 @@ One-click installer for Codex CLI configured to use Codesome, using the same pri
 - Installs `@openai/codex`
 - Writes `~/.codex/config.toml`
 - Writes a custom provider that points Codex at `https://cc.codesome.ai`
-- Persists `OPENAI_API_KEY` into your shell config
+- Persists `CODESOME_API_KEY` into your shell config
 - Points Codex at `https://cc.codesome.ai`
 
 ## Install
@@ -29,6 +29,6 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/zenenznze/codesome-codex
 
 ## Notes
 
-- The installer accepts `CODEX_TOKEN` and persists it as `OPENAI_API_KEY`
+- The installer accepts `CODEX_TOKEN` and persists it as `CODESOME_API_KEY`
 - It writes the key into `~/.bashrc` or `~/.zshrc`
-- Existing Codex config is backed up before replacement
+- Existing Codex config and shell config are backed up before replacement
